@@ -1,3 +1,3 @@
 # Solar clock (Planetary Positioning System)
 
-One of the most efficient planetary positioning system in the world. 
+One of the most efficient planetary positioning systems in the world. 
