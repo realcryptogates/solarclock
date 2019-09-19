@@ -3,330 +3,385 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>Solar Clock- Planetary Positioning System</title>
+  <meta name="description" content="A live interactive solar system map that positions the planetary orbits of the planets of our solar system by past date, current date and future date.">
+  <meta name="keywords" content="planetary positions, solar system map, planetary orbits, planet positions tonight, position of earth, predictions, alignment, astrology">
+  <meta name="author" content="DJHK">
   <meta charset="utf-8">
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-9028472412315714",
+        enable_page_level_ads: true
+    });
+    </script>
 
-  </script>
-  
 
-  
-  
 
-  <script type="text/javascript">
-                $(document).ready(function(){
-                  var canvas = $('#mycanvas');
+<script type="text/javascript">
 
-                  var context = canvas.get(0).getContext('2d');
-                  var centreX = canvas.width()/2;
-                  var centreY = canvas.height()/2;
-                  var sratio=.5
-                  var gradient = context.createRadialGradient(centreX, centreY,200*sratio,centreX,centreY,400*sratio);
-                  
-              
-                  gradient.addColorStop(0,'rgb(200,200,150)');
-                  gradient.addColorStop(1, 'rgb(0,0,0)');
-                  context.fillStyle=gradient;
-                  context.fillRect(0,0,canvas.width(),canvas.height());
-                
-                  context.shadowBlur='150';
-                  context.shadowColor='rgb(250,0,0)';
-                  context.fillStyle='rgb(250,250,0)';                 
-                  context.beginPath();
-                  context.arc(400*sratio,400*sratio,30*sratio,0,Math.PI*2,false);
-                  context.closePath();       
-                  context.fill();
-                
+$(window).load(function(){
+    var canvas = $('#mycanvas');
+    var context = canvas.get(0).getContext('2d');
+    var centreX = canvas.width()/2;
+    var centreY = canvas.height()/2;
+    var sratio= canvas.width()/800;
 
-     <!-- initial planet function -->
-                                      
-                  var planets = function(x,y,Q,r,year,color,size){
-                    
-              <!-- finding ratio  -->
-                    var tunix=1549499771000;
-                    var d=Date.now();
-                    var t=((d-tunix)/year)+Q;
-                    t=t-Math.floor(t);
-                    
-               <!-- sizes and positions -->                    
-                    this.color=color;
-                    this.size=size*sratio;
-                    this.r=r*sratio;
 
-                    this.x=400*sratio+Math.cos(t*2*Math.PI)*this.r;
-                    this.y=400*sratio-Math.sin(t*2*Math.PI)*this.r;                                        
-                    this.x=Math.round(this.x);
-                    this.y=Math.round(this.y);
-                    
-                    context.shadowBlur='30';
-                    context.shadowColor='rgb(0,0,0)';
-                    context.fillStyle=this.color;
-                    context.beginPath();
-                    context.arc(this.x,this.y,this.size,0,Math.PI*2,false);
-                    context.closePath();       
-                    context.fill();
-                }
-                
-                  
-    <!-- input variables for planet function -->          
-                  
-                var mercyear=88*24*60*60*1000;
-                var vyear=225*24*60*60*1000;       
-                var eyear=365*24*60*60*1000;
-                var marsyear=687*24*60*60*1000;
-                var jyear=11.862*365*24*60*60*1000;
-                var syear=29.457*365*24*60*60*1000;
-                var uyear=84.011*365*24*60*60*1000;
-                var nyear=164.79*365*24*60*60*1000;
-                
-                var merccolor='rgb(100,80,80)';
-                var vcolor='rgb(210,105,30)';
-                var ecolor='rgb(30,200,0)';
-                var marscolor='rgb(139,0,0)';
-                var jcolor='rgb(255,140,0)';
-                var scolor='rgb(255,222,173)';
-                var ucolor='rgb(176,196,222)';
-                var ncolor='rgb(0,0,200)';
-                
-                var mercsize=50/6;
-                var vsize=177/13;
-                var esize=197/13;
-                var marssize=56/5;
-                var jsize=22;
-                var ssize=15;
-                var usize=15;
-                var nsize=15;
-                
-                var mercrad=50;
-                var vrad=90;
-                var erad=140;
-                var marsrad=200;
-                var jrad=240;
-                var srad=300; 
-                var urad=330;
-                var nrad=400;
-                
-                var x;
-                var y;
-                
-                var mercury=planets(x,y,.04,mercrad,mercyear,merccolor,mercsize);
-                var venus=planets(x,y,.64,vrad,vyear,vcolor,vsize);
-                var earth=planets(x,y,.48,erad,eyear,ecolor,esize);
-                var mars=planets(x,y,.26,marsrad,marsyear,marscolor,marssize);
-                
-                var jupiter=planets(x,y,.8,jrad,jyear,jcolor,jsize);
-                var saturn=planets(x,y,.86,srad,syear,scolor,ssize);
-                var uranus=planets(x,y,.21,urad,uyear,ucolor,usize);
-                var neptune=planets(x,y,.09,nrad,nyear,ncolor,nsize);
-                
-                  
-                  
-          <!-- writings -->        
-                                                    
-                  
-                context.fillStyle='rgb(255,255,255)'
-                var title="Solar Clock"
-                var fontsize=50*sratio
-                var fonttext="bold "+fontsize+ "px " + "serif"
-                context.font=fonttext
-                context.fillText(title,11*sratio,50*sratio)
-                
-                
-                var descript= 'Planetary Tracking System' 
-                var fontsize=23*sratio
-                var fonttext=fontsize+ "px " + "serif"                
-                context.font=fonttext
-                context.fillText(descript,12*sratio,80*sratio)
-                
-                var currentdate = new Date();
-                var fontsize=18*sratio
-                var fonttext=fontsize+ "px " + "serif"    
-                context.font=fonttext
-                context.fillText(currentdate,13*sratio,110*sratio)
-                
-                var name='Operator: Daniel Kim'
-                var fontsize=20*sratio
-                var fonttext=fontsize+ "px " + "serif"   
-                context.font=fonttext
-                context.fillText(name,11*sratio,790*sratio)
-                                                               
-                });
-</script>
-<title>Planetary Tracking System</title>
-</head>
-
-  
-
-<body>
-
-  
-<!-- form and canvas -->
-  
-  <div style="text-align:center">
-    <canvas id='mycanvas' width="400px" height="400px">    
-    </canvas>
-  </div>
+    var gradient = context.createRadialGradient(centreX, centreY, 200*sratio, centreX, centreY, 400*sratio);
     
-    <div style=" border-radius: 5px; background-color: #f2f2f2; padding: 20px;text-align:center">
-        <form id='inputdate' style="">
-            <strong> Pick Date:</strong>
-            <input type="date" name="input" >
-            <br><br>
-            <input type="button" onclick="dateinput()" value="Submit" style="border-radius: 4px;font-size:20px">
-        </form>   
-    </div>
+    gradient.addColorStop(0,'rgb(200,200,150)');
+    gradient.addColorStop(1, 'rgb(0,0,0)');
+    context.fillStyle=gradient;
+    context.fillRect(0,0,canvas.width(),canvas.height());
 
-  <p><b>Note:</b> the positions are only approximate.</p>
-
-  
-  
-<script> 
-  <!-- inputed solar clock -->
-    
-          function dateinput() {
-
-                  var canvas = $('#mycanvas');
-                  var context = canvas.get(0).getContext('2d');
-                  var centreX = canvas.width()/2;
-                  var centreY = canvas.height()/2;
-                  var sratio=.5
-                  var gradient = context.createRadialGradient(centreX, centreY,200*sratio,centreX,centreY,400*sratio);
-
-                  gradient.addColorStop(0,'rgb(200,200,150)');
-                  gradient.addColorStop(1, 'rgb(0,0,0)');
-                  context.fillStyle=gradient;
-                  context.fillRect(0,0,canvas.width(),canvas.height());
-                
-                  context.shadowBlur='150';
-                  context.shadowColor='rgb(250,0,0)';
-                  context.fillStyle='rgb(250,250,0)';                 
-                  context.beginPath();
-                  context.arc(400*sratio,400*sratio,30*sratio,0,Math.PI*2,false);
-                  context.closePath();       
-                  context.fill();
-                
+    context.shadowBlur='150';
+    context.shadowColor='rgb(250,0,0)';
+    context.fillStyle='rgb(250,250,0)';                 
+    context.beginPath();
+    context.arc(400*sratio, 400*sratio, 30*sratio, 0, Math.PI*2, false);
+    context.closePath();       
+    context.fill();
         
     
-    <!-- new input time -->      
-                  var inputdate=document.forms['inputdate'].elements['input'].value;
-                  var fulldate=new Date(inputdate);
-                  var milidate= fulldate.getTime();
-   
-    
-    <!-- planet positions function --> 
-      
-              var planets = function(x,y,Q,r,year,color,size){
-                    
-                    var tunix=1549499771000;
-                    var t=((milidate-tunix)/year)+Q;                   
-                    
-                    if (t >= 0){
-                    	t=t-Math.floor(t);}
-                    if (t<0){
-                        t = Math.abs(t);
-                    	t = Math.ceil(t)-t;} 
-                                       
-                                                          
-                    this.color=color;
-                    this.size=size*sratio; 
-                    this.r=r*sratio
+    var planets = function(x,y,Q,r,year,color,size){        
+        var tunix=1549499771000;
+        var d=Date.now();
+        var t=((d-tunix)/year)+Q;
+        t=t-Math.floor(t);
+                            
+        this.color= color;
+        this.size= size*sratio;
+        this.r= r*sratio;
 
-                    this.x=400*sratio+Math.cos(t*2*Math.PI)*this.r;
-                    this.y=400*sratio-Math.sin(t*2*Math.PI)*this.r;                                        
-                    this.x=Math.round(this.x);
-                    this.y=Math.round(this.y);
-                    
-                    context.shadowBlur='30';
-                    context.shadowColor='rgb(0,0,0)';
-                    context.fillStyle=this.color;
-                    context.beginPath();
-                    context.arc(this.x,this.y,this.size,0,Math.PI*2,false);
-                    context.closePath();       
-                    context.fill();
-                }
-               
-               
-      <!-- variables for the function -->
+        this.x= 400*sratio+Math.cos(t*2*Math.PI)*this.r;
+        this.y= 400*sratio-Math.sin(t*2*Math.PI)*this.r;                                        
+        this.x= Math.round(this.x);
+        this.y= Math.round(this.y);
+        
+        context.shadowBlur='30';
+        context.shadowColor='rgb(0,0,0)';
+        context.fillStyle=this.color;
+        context.beginPath();
+        context.arc(this.x,this.y,this.size,0,Math.PI*2,false);
+        context.closePath();       
+        context.fill();
+    }
+            
                 
-                var mercyear=88*24*60*60*1000;
-                var vyear=225*24*60*60*1000;       
-                var eyear=365*24*60*60*1000;
-                var marsyear=687*24*60*60*1000;
-                var jyear=11.862*365*24*60*60*1000;
-                var syear=29.457*365*24*60*60*1000;
-                var uyear=84.011*365*24*60*60*1000;
-                var nyear=164.79*365*24*60*60*1000;
-                
-                var merccolor='rgb(100,80,80)';
-                var vcolor='rgb(210,105,30)';
-                var ecolor='rgb(30,200,0)';
-                var marscolor='rgb(139,0,0)';
-                var jcolor='rgb(255,140,0)';
-                var scolor='rgb(255,222,173)';
-                var ucolor='rgb(176,196,222)';
-                var ncolor='rgb(0,0,200)';
-                
-                var mercsize=50/6;
-                var vsize=177/13;
-                var esize=197/13;
-                var marssize=56/5;
-                var jsize=23;
-                var ssize=15;
-                var usize=15;
-                var nsize=15;
-                
-                var mercrad=50;
-                var vrad=90;
-                var erad=140;
-                var marsrad=200;
-                var jrad=240;
-                var srad=300;
-                var urad=330;
-                var nrad=400;
-                
-                var x;
-                var y;
-                
-                var mercury=planets(x,y,.04,mercrad,mercyear,merccolor,mercsize);
-                var venus=planets(x,y,.64,vrad,vyear,vcolor,vsize);
-                var earth=planets(x,y,.48,erad,eyear,ecolor,esize);
-                var mars=planets(x,y,.26,marsrad,marsyear,marscolor,marssize);
-                
-                var jupiter=planets(x,y,.8,jrad,jyear,jcolor,jsize);
-                var saturn=planets(x,y,.86,srad,syear,scolor,ssize);
-                var uranus=planets(x,y,.21,urad,uyear,ucolor,usize);
-                var neptune=planets(x,y,.09,nrad,nyear,ncolor,nsize);
-                
-                  
-           <!-- writings -->       
-                  
-                context.fillStyle='rgb(255,255,255)'
-                var title="Solar Clock"
-                var fontsize=50*sratio
-                var fonttext="bold "+fontsize+ "px " + "serif"
-                context.font=fonttext
-                context.fillText(title,11*sratio,50*sratio)
-                
-                
-                var descript= 'Planetary Tracking System' 
-                var fontsize=23*sratio
-                var fonttext=fontsize+ "px " + "serif"                
-                context.font=fonttext
-                context.fillText(descript,12*sratio,80*sratio)
-                
-                var currentdate = new Date();
-                var fontsize=18*sratio
-                var fonttext=fontsize+ "px " + "serif"    
-                context.font=fonttext
-                context.fillText(currentdate,13*sratio,110*sratio)
-                
-                var name='Operator: Daniel Kim'
-                var fontsize=20*sratio
-                var fonttext=fontsize+ "px " + "serif"   
-                context.font=fonttext
-                context.fillText(name,11*sratio,790*sratio)
+    var mercyear=88*24*60*60*1000;
+    var vyear=225*24*60*60*1000;       
+    var eyear=365*24*60*60*1000;
+    var marsyear=687*24*60*60*1000;
+    var jyear=11.862*365*24*60*60*1000;
+    var syear=29.457*365*24*60*60*1000;
+    var uyear=84.011*365*24*60*60*1000;
+    var nyear=164.79*365*24*60*60*1000;
+    
+    var merccolor='rgb(100,80,80)';
+    var vcolor='brown';
+    var ecolor='#009432';
+    var marscolor='#EA2027';
+    var jcolor='rgb(255,140,0)';
+    var scolor='rgb(255,222,173)';
+    var ucolor='rgb(176,196,222)';
+    var ncolor='rgb(0,0,200)';
+    
+    var mercsize=50/6;
+    var vsize=177/13;
+    var esize=197/13;
+    var marssize=56/5;
+    var jsize=22;
+    var ssize=15;
+    var usize=15;
+    var nsize=15;
+    
+    var mercrad=50; var vrad=90; var erad=140; var marsrad=200; var jrad=240; var srad=300; var urad=330; var nrad=400;      
+    var x; var y;
+    
+    var mercury=planets(x,y,.04,mercrad,mercyear,merccolor,mercsize);
+    var venus=planets(x,y,.64,vrad,vyear,vcolor,vsize);
+    var earth=planets(x,y,.48,erad,eyear,ecolor,esize);
+    var mars=planets(x,y,.26,marsrad,marsyear,marscolor,marssize);
+    var jupiter=planets(x,y,.8,jrad,jyear,jcolor,jsize);
+    var saturn=planets(x,y,.86,srad,syear,scolor,ssize);
+    var uranus=planets(x,y,.21,urad,uyear,ucolor,usize);
+    var neptune=planets(x,y,.09,nrad,nyear,ncolor,nsize);
+            
+    context.fillStyle='rgb(255,255,255)'
+    var title="Solar Clock"
+    var fontsize=50*sratio
+    var fonttext="bold "+fontsize+ "px " + "serif"
+    context.font=fonttext
+    context.fillText(title,11*sratio,50*sratio)    
+    var descript= 'Planetary Tracking System' 
+    var fontsize=23*sratio
+    var fonttext=fontsize+ "px " + "serif"                
+    context.font=fonttext
+    context.fillText(descript,12*sratio,80*sratio)     
+    var currentdate = new Date();
+    var fontsize=18*sratio
+    var fonttext=fontsize+ "px " + "serif"    
+    context.font=fonttext
+    context.fillText(currentdate,13*sratio,110*sratio)     
+    var name='Operator: DJHK'
+    var fontsize=20*sratio
+    var fonttext=fontsize+ "px " + "serif"   
+    context.font=fonttext
+    context.fillText(name,11*sratio,790*sratio)
+                                                            
+});
+</script>           
+
+
+<style>
+        * {box-sizing:border-box;}
+        a {color:white; text-decoration:none }
+        a:hover {color:orange}
+        body {background-color:rgba(45, 52, 54,1.0); padding:0}
+        .sec-body {padding:0 5vw; display:flex; flex-direction:column; vertical-align:center; align-items:center}
+            header {display:flex; flex-direction:row; vertical-align:center; align-items:flex-start; padding:18px; border-radius:5px; background-color:black; color:white; width:100%; margin-bottom:30px}
+                .navbar {padding:10px 5px; border-radius:5px; margin:0 5vw}
+                .logo {color:orange; font-size:20px; font-weight:bold;  padding:10px; border:solid yellow 1.5px; border-radius:50%}
+                #donate {border:solid white 1px; position:absolute; right:10%}
+                #donate:hover {border:solid orange 1px;}
+                #donate:hover a {color:orange}
+            .cont-canvas {text-align:center; padding:15px;}
+                .cont-planets1 {position:absolute; right:10%; display:flex; flex-direction:row; background-color:#ced6e0; padding:5px; border-radius:5px }
+                    .cont-planets1 div {padding:10px}
+                    .cont-planets1 div * {font-weight:bold}
+            .cont-input {display:flex; align-items:center;}
+                .cont-input form {display:block; border-radius:5px; background-color:black; padding:20px; text-align:center; min-width:400px; max-width:600px; margin:0 auto; color:white}
+            .cont-planets {display:none; flex-direction:row; background-color:#ced6e0; padding:5px; border-radius:5px }
+                .cont-planets div {padding:10px}
+                .cont-planets div * {font-weight:bold}
+            footer {display:flex; vertical-align:center; align-items:center; padding:50px; color:white; background-color:black; margin-top:5vw}
+                footer div {width:100%; text-align:center}
+                 
+@media only screen and (max-width:700px) {
+    .ppps {display:none}
+
+}
+
+@media only screen and (max-width:960px) {
+    .cont-planets1 {display:none}
+    .cont-planets {display:flex}
+
+}
+
+    
+    </style>
+
+</head>
+
+<body>
+    <div class='sec-body'>
+        <header>
+                <div class="navbar"> <span class='logo'>Solar Clock</span> <span class='ppps'>(Planetary Positioning System)</span></div>
+                <div class="navbar" id='donate'> <a href="donate.html"> Donate </a></div>
+        </header>
+
+
+        <div class="cont-canvas">
+            <div class='cont-planets1'>
+                    <div>
+                        <li><span style='color:rgb(100,80,80)'>Mercury</span></li>
+                        <li><span style='color:brown'>Venus</span></li>
+                        <li><span style='color:#009432'>Earth</span></li>
+                        <li><span style='color:#EA2027'>Mars</span></li>
+                    </div>
+                    <div>
+                        <li><span style='color:rgb(255,140,0)'>Jupyter</span></li>
+                        <li><span style='color:rgb(255,222,173)'>Saturn</span></li>
+                        <li><span style='color:rgb(176,196,222)'>Uranus</span></li>
+                        <li><span style='color:rgb(0,0,200)'>Neptune</span></li>
+                    </div>
+                </div>
+            <script>
+                var w = window.innerHeight*.7;
+                document.write("<canvas id='mycanvas' width='" + w + "px' height='" + w +"px'></canvas>")
+            </script>
+            <br>
+            <i style='color:white; font-size:10px; margin:0; padding:0'>*Note: the positions are only approximate.</i>
+        </div>
+        
+        <div class="cont-input">
+            <form id='inputdate'>
+                <strong> Pick Date:</strong>
+                <input type="date" name="input" >
+                <br><br>
+                <input type="button" onclick="dateinput()" value="Submit" style="border-radius:4px; font-size:15px">
+            </form>   
+        </div>
+
+        <br>
+
+        <div class='cont-planets'>
+            <div>
+                <li><span style='color:rgb(100,80,80)'>Mercury</span></li>
+                <li><span style='color:brown'>Venus</span></li>
+                <li><span style='color:#009432'>Earth</span></li>
+                <li><span style='color:#EA2027'>Mars</span></li>
+            </div>
+            <div>
+                <li><span style='color:rgb(255,140,0)'>Jupyter</span></li>
+                <li><span style='color:rgb(255,222,173)'>Saturn</span></li>
+                <li><span style='color:rgb(176,196,222)'>Uranus</span></li>
+                <li><span style='color:rgb(0,0,200)'>Neptune</span></li>
+            </div>
+        </div>
+
+    </div>
   
-  
-  
+    <footer>
+        <div>
+            <span class='logo'>Solar Clock</span>
+            <br><br><br>
+            <a style='font-size:14px' href='donate.html'>Please Support Us for Higher Quality Content:<br> 
+                <span style='color:orange; font-size:15px '> Donate Today</span>
+            </a>
+        </div>
+    </footer>
+
+</body>
+
+<script>   
+    function dateinput() {
+        var canvas = $('#mycanvas');
+        var context = canvas.get(0).getContext('2d');
+        var centreX = canvas.width()/2;
+        var centreY = canvas.height()/2;
+        var sratio=canvas.width()/800;
+        var gradient = context.createRadialGradient(centreX, centreY, 200*sratio, centreX, centreY, 400*sratio);
+
+        gradient.addColorStop(0,'rgb(200,200,150)');
+        gradient.addColorStop(1, 'rgb(0,0,0)');
+        context.fillStyle=gradient;
+        context.fillRect(0,0,canvas.width(),canvas.height());
+    
+        context.shadowBlur='150';
+        context.shadowColor='rgb(250,0,0)';
+        context.fillStyle='rgb(250,250,0)';                 
+        context.beginPath();
+        context.arc(400*sratio,400*sratio,30*sratio,0,Math.PI*2,false);
+        context.closePath();       
+        context.fill();
+
+        var inputdate=document.forms['inputdate'].elements['input'].value;
+        var fulldate=new Date(inputdate);
+        var milidate= fulldate.getTime();
+
+        var planets = function(x,y,Q,r,year,color,size){         
+            var tunix=1549499771000;
+            var t=((milidate-tunix)/year)+Q;
+
+            if (t >= 0){
+                t=t-Math.floor(t);}
+            if (t<0){
+                t = Math.abs(t);
+                t = Math.ceil(t)-t;} 
+                                                                                    
+            this.color=color;
+            this.size=size*sratio; 
+            this.r=r*sratio
+
+            this.x=400*sratio+Math.cos(t*2*Math.PI)*this.r;
+            this.y=400*sratio-Math.sin(t*2*Math.PI)*this.r;                                        
+            this.x=Math.round(this.x);
+            this.y=Math.round(this.y);
+            
+            context.shadowBlur='30';
+            context.shadowColor='rgb(0,0,0)';
+            context.fillStyle=this.color;
+            context.beginPath();
+            context.arc(this.x,this.y,this.size,0,Math.PI*2,false);
+            context.closePath();       
+            context.fill();
+        }
+        
+        
+        
+        
+        var mercyear=88*24*60*60*1000;
+        var vyear=225*24*60*60*1000;       
+        var eyear=365*24*60*60*1000;
+        var marsyear=687*24*60*60*1000;
+        var jyear=11.862*365*24*60*60*1000;
+        var syear=29.457*365*24*60*60*1000;
+        var uyear=84.011*365*24*60*60*1000;
+        var nyear=164.79*365*24*60*60*1000;
+        
+        var merccolor='rgb(100,80,80)';
+        var vcolor='brown';
+        var ecolor='#009432';
+        var marscolor='#EA2027';
+        var jcolor='rgb(255,140,0)';
+        var scolor='rgb(255,222,173)';
+        var ucolor='rgb(176,196,222)';
+        var ncolor='rgb(0,0,200)';
+        
+        var mercsize=50/6;
+        var vsize=177/13;
+        var esize=197/13;
+        var marssize=56/5;
+        var jsize=23;
+        var ssize=15;
+        var usize=15;
+        var nsize=15;
+        
+        var mercrad=50;
+        var vrad=90;
+        var erad=140;
+        var marsrad=200;
+        var jrad=240;
+        var srad=300;
+        var urad=330;
+        var nrad=400;
+        
+        var x;
+        var y;
+        
+        var mercury=planets(x,y,.04,mercrad,mercyear,merccolor,mercsize);
+        var venus=planets(x,y,.64,vrad,vyear,vcolor,vsize);
+        var earth=planets(x,y,.48,erad,eyear,ecolor,esize);
+        var mars=planets(x,y,.26,marsrad,marsyear,marscolor,marssize);
+        
+        var jupiter=planets(x,y,.8,jrad,jyear,jcolor,jsize);
+        var saturn=planets(x,y,.86,srad,syear,scolor,ssize);
+        var uranus=planets(x,y,.21,urad,uyear,ucolor,usize);
+        var neptune=planets(x,y,.09,nrad,nyear,ncolor,nsize);
+        
+            
+        <!-- writings -->       
+            
+        context.fillStyle='rgb(255,255,255)'
+        var title="Solar Clock"
+        var fontsize=50*sratio
+        var fonttext="bold "+fontsize+ "px " + "serif"
+        context.font=fonttext
+        context.fillText(title,11*sratio,50*sratio)
+        
+        
+        var descript= 'Planetary Tracking System' 
+        var fontsize=23*sratio
+        var fonttext=fontsize+ "px " + "serif"                
+        context.font=fonttext
+        context.fillText(descript,12*sratio,80*sratio)
+        
+        var currentdate = new Date();
+        var fontsize=18*sratio
+        var fonttext=fontsize+ "px " + "serif"    
+        context.font=fonttext
+        context.fillText(currentdate,13*sratio,110*sratio)
+        
+        var name='Operator: DJHK'
+        var fontsize=20*sratio
+        var fonttext=fontsize+ "px " + "serif"   
+        context.font=fonttext
+        context.fillText(name,11*sratio,790*sratio)
   
 }  
 
@@ -336,5 +391,4 @@
   
   
   
-</body>
 </html>
